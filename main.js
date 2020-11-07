@@ -11,14 +11,14 @@ let currentPage = 0;
 let data;
 
 const company = {
-    'AZU': '../img/AZU.png', // Logo Azul Linhas Aereas
-    'GLO': '../img/GLO.png', // Logo Gol Linhas Aereas
-    'PAM': '../img/PAM.png', // Logo MAP linhas Aereas
-    'PTB': '../img/PTB.png', // Logo Passaredo Linhas Aereas
-    'TAM': '../img/TAM.png', // Logo LaTam Linhas Aereas
-    'TTL': '../img/TTL.png', // Logo Total Linhas Aereas
-    'SID': '../img/SID.png', // Logo Sideral Linhas Aereas
-    'LAP': '../img/LAP.png', // Logo Linhas Aereas Paraguaias
+    'AZU': './img/AZU.png', // Logo Azul Linhas Aereas
+    'GLO': './img/GLO.png', // Logo Gol Linhas Aereas
+    'PAM': './img/PAM.png', // Logo MAP linhas Aereas
+    'PTB': './img/PTB.png', // Logo Passaredo Linhas Aereas
+    'TAM': './img/TAM.png', // Logo LaTam Linhas Aereas
+    'TTL': './img/TTL.png', // Logo Total Linhas Aereas
+    'SID': './img/SID.png', // Logo Sideral Linhas Aereas
+    'LAP': './img/LAP.png', // Logo Linhas Aereas Paraguaias
 };
 
 
