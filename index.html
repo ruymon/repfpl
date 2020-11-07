@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <script src="main.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="./global.css">
+
+  <title>Repetitive FPL</title>
+</head>
+
+<body onload="pageLoad();">
+  <br />
+  <div class="container">
+    <h1 class="text-center">Repetitive FPL</h1>
+    <form>
+      <div class="form-row">
+        <div class="col">
+          <label for="deptIcao">Departure</label>
+          <input type="text" onkeyup="this.value = this.value.toUpperCase();" class="form-control" maxlength="4"
+            id="deptIcao" />
+        </div>
+        <div class="col">
+          <label for="arrIcao">Arrival</label>
+          <input type="text" onkeyup="this.value = this.value.toUpperCase();" class="form-control" maxlength="4"
+            id="arrIcao" />
+        </div>
+
+        <div class="col">
+          <label for="arrIcao">Company</label>
+          <input type="text" onkeyup="this.value = this.value.toUpperCase();" class="form-control" maxlength="3"
+            id="ciaIcao" />
+        </div>
+      </div>
+      <br />
+      <button type="button" class="btn btn-success" onclick="handleButton()">
+        Enviar
+      </button>
+    </form>
+    <br />
+    <br />
+    <br />
+
+    <div class="table-responsive" id="outputPanel">
+      <nav class="navbar navbar-expand-sm navbar-light bg-light d-flex justify-content-end">
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search Callsign" aria-label="Search Callsign"
+            id="searchInput" />
+        </form>
+      </nav>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Operator</th>
+            <th scope="col">Callsign</th>
+            <th scope="col">Aircraft</th>
+            <th scope="col">Departure</th>
+            <th scope="col">Arrival</th>
+            <th scope="col">Route</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+
+        <tbody id="outputTable"></tbody>
+      </table>
+
+      <div class="container">
+        <nav aria-label="...">
+          <ul class="pagination pagination-sm justify-content-end" id="pagination">
+            <!-- Pagination Full Left -->
+            <li class="page-item">
+              <a class="page-link" onclick="startPage();">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-bar-left" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M11.854 3.646a.5.5 0 0 1 0 .708L8.207 8l3.647 3.646a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0zM4.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5z" />
+                </svg>
+              </a>
+            </li>
+
+            <!-- Pagination 1 left-->
+            <li class="page-item">
+              <a class="page-link" onclick="previousPage();">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-compact-left" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223z" />
+                </svg>
+              </a>
+            </li>
+
+            <!-- Pagination 1 Right -->
+            <li class="page-item">
+              <a class="page-link" onclick="nextPage();">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-compact-right"
+                  fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z" />
+                </svg>
+              </a>
+            </li>
+
+            <!-- Pagination Full Right -->
+
+            <li class="page-item">
+              <a class="page-link" onclick="endPage();">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-bar-right" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M4.146 3.646a.5.5 0 0 0 0 .708L7.793 8l-3.647 3.646a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708 0zM11.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5z" />
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="moreInfoModal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal header-->
+          <div class="container d-inline">
+
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            <div class="pl-1 mt-2">
+              <h4 class="modal-title"><span class="badge badge-success" id="modalHeaderTitle"></span></h4>
+            </div> 
+
+            <div class="pl-1 pb-1">
+              <span class="badge badge-light" >
+                <span class="text-monospace" id="modalHeaderDeparture"></span>
+                <span class="text-monospace"> - </samp>
+                <span class="text-monospace" id="modalHeaderArrival"></span>
+              </span>
+            </div>
+
+          <hr>
+          </div>
+
+          <!-- Modal Body -->
+          <div class="modal-Body">
+            <div class="container">
+
+              <div class="modalSchedule">
+                <span class="badge badge-info">
+                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar3-range" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                    <path fill-rule="evenodd" d="M7 10a1 1 0 0 0 0-2H1v2h6zm2-3a1 1 0 0 1 0-2h6v2H9z"/>
+                  </svg>
+                  SCHEDULE
+                </span>
+
+                
+              </div>
+
+      
+              <br />
+
+
+              <div class="modalRemarks">
+                <!-- Modal Remarks Title-->
+                <span class="badge badge-info mb-1">
+                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clipboard" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                    <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                  </svg>
+                  REMARKS
+                </span>
+
+
+                <!-- Modal Remarks Text Box-->
+                <pre class="bg-light px-1 border rounded">
+                  <p class="text-wrap" id="modalRemarks"></p>
+                </pre>
+              </div>
+              
+            </div>
+          </div>
+
+
+          
+
+          <!-- Modal Footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+          </div>
+
+
+        </div>
+
+      </div>
+    </div>
+
+
+    <script src="./main.js"></script>
+  </div>
+
+  <!-- <div class="container-sm">
+        <div class="alert alert-light role="alert" >
+            <h4 class="alert-heading"><span class="badge badge-warning" id="outputHeader">RWY 11</span><span class="badge badge-light"> RNAV IRUMO1A</span></h4>
+            <iframe src="https://docs.google.com/viewer?url=http://aisweb.decea.gov.br/download/?arquivo=3b4aa389-ab75-43ac-8df443c942da1438&amp&embedded=true" width="500px" height="600px"></iframe>
+            <hr>
+          </div>
+    </div> -->
+</body>
+
+</html>
