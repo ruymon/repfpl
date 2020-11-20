@@ -11,14 +11,25 @@ let currentPage = 0;
 let data;
 
 const company = {
-    'AZU': './img/AZU.png', // Logo Azul Linhas Aereas
-    'GLO': './img/GLO.png', // Logo Gol Linhas Aereas
-    'PAM': './img/PAM.png', // Logo MAP linhas Aereas
-    'PTB': './img/PTB.png', // Logo Passaredo Linhas Aereas
-    'TAM': './img/TAM.png', // Logo LaTam Linhas Aereas
-    'TTL': './img/TTL.png', // Logo Total Linhas Aereas
-    'SID': './img/SID.png', // Logo Sideral Linhas Aereas
-    'LAP': './img/LAP.png', // Logo Linhas Aereas Paraguaias
+    'AZU': './img/icon/AZU.png', // Logo Azul Linhas Aereas
+    'GLO': './img/icon/GLO.png', // Logo Gol Linhas Aereas
+    'PAM': './img/icon/PAM.png', // Logo MAP linhas Aereas
+    'PTB': './img/icon/PTB.png', // Logo Passaredo Linhas Aereas
+    'TAM': './img/icon/TAM.png', // Logo LaTam Linhas Aereas
+    'TTL': './img/icon/TTL.png', // Logo Total Linhas Aereas
+    'SID': './img/icon/SID.png', // Logo Sideral Linhas Aereas
+    'LAP': './img/icon/LAP.png', // Logo Linhas Aereas Paraguaias
+};
+
+const companyHres = {
+    'AZU': './img/resolution/AZU_hres.png', // Logo Azul Linhas Aereas
+    'GLO': './img/resolution/GLO_hres.png', // Logo Gol Linhas Aereas
+    'PAM': './img/resolution/PAM_hres.png', // Logo MAP linhas Aereas
+    'PTB': './img/resolution/PTB_hres.png', // Logo Passaredo Linhas Aereas
+    'TAM': './img/resolution/TAM_hres.png', // Logo LaTam Linhas Aereas
+    'TTL': './img/resolution/TTL_hres.png', // Logo Total Linhas Aereas
+    'SID': './img/resolution/SID_hres.png', // Logo Sideral Linhas Aereas
+    'LAP': './img/resolution/LAP_hres.png', // Logo Linhas Aereas Paraguaias
 };
 
 
@@ -66,6 +77,11 @@ function getLogo (name) {
     return logo;
 }
 
+function getLogoHres (name) {
+    const logo = companyHres[name];
+    return logo;
+}
+
 function showData (data) {
 
     document.getElementById('outputPanel').classList.remove("d-none");
@@ -96,8 +112,8 @@ function Item (item) {
     <td><img src="${getLogo(item.company)}"/></td>
     <td><samp>${item.callsign}</samp></td>
     <td><samp>${item.aircraft.icaoCode}</samp></td>
-    <td><a class="badge badge-info text-decoration-none" href="https://aisweb.decea.gov.br/?i=aerodromos&codigo=${item.departureIcao}">${item.departureIcao}</a></td>
-    <td><a class="badge badge-info text-decoration-none" href="https://aisweb.decea.gov.br/?i=aerodromos&codigo=${item.arrivalIcao}">${item.arrivalIcao}</a></td>
+    <td><a class="badge badge-info text-decoration-none" href="https://aisweb.decea.gov.br/?i=aerodromos&codigo=${item.departureIcao}" target="_blank">${item.departureIcao}</a></td>
+    <td><a class="badge badge-info text-decoration-none" href="https://aisweb.decea.gov.br/?i=aerodromos&codigo=${item.arrivalIcao}" target="_blank">${item.arrivalIcao}</a></td>
     <td><samp>${item.route}</samp></td> 
     <td><a class="badge badge-success" type="button" onclick="moreInfo('${item.id}')">More Info</a></td>
     </tr>
@@ -108,11 +124,17 @@ function moreInfo (id) {
 
     $("#moreInfoModal").modal();
 
+
+
     // Modal Header 
     document.getElementById('modalHeaderTitle').innerHTML = flightData.callsign; // Aircraft Callsign
 
-    document.getElementById('modalHeaderDeparture').innerHTML = flightData.departureIcao; // Dept ICAO
-    document.getElementById('modalHeaderArrival').innerHTML = flightData.arrivalIcao; // Arrival ICAO
+    document.getElementById('modalLogo').innerHTML = `<br /> <img class="mx-auto d-block" src="${getLogoHres(flightData.company)}" width="195" height="45"/>`;
+
+    document.getElementById('modalHeaderAircraftType').innerHTML = flightData.aircraft.icaoCode; // Aircraft Callsign
+
+    document.getElementById('modalHeaderDeparture').innerHTML = `<a class="badge badge-light text-decoration-none" href="https://aisweb.decea.gov.br/?i=aerodromos&codigo=${flightData.departureIcao}" target="_blank">${flightData.departureIcao}</a>`; // Dept ICAO
+    document.getElementById('modalHeaderArrival').innerHTML = `<a class="badge badge-light text-decoration-none" href="https://aisweb.decea.gov.br/?i=aerodromos&codigo=${flightData.arrivalIcao}" target="_blank">${flightData.arrivalIcao}</a>`; // Arrival ICAO
 
     document.getElementById('modalFlightRule').innerHTML = flightData.flightRules;
 
@@ -124,11 +146,14 @@ function moreInfo (id) {
 
     document.getElementById('modalFlightEOBT').innerHTML = flightData.estimatedOffBlockTime + " z";
 
+
+
     
     
     
     // document.getElementById('modalSchedule').innerHTML = flightData.weekdays; // Modal info Days Of Week
-    
+
+    document.getElementById('modalRoute').innerHTML = flightData.route;
     
     document.getElementById('modalRemarks').innerHTML = flightData.remarks; // Modal info Remarks
 };
