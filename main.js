@@ -109,15 +109,28 @@ function moreInfo (id) {
     $("#moreInfoModal").modal();
 
     // Modal Header 
-    document.getElementById('modalHeaderTitle').innerHTML = flightData.callsign;
-    document.getElementById('modalHeaderDeparture').innerHTML = flightData.departureIcao;
-    document.getElementById('modalHeaderArrival').innerHTML = flightData.arrivalIcao;
+    document.getElementById('modalHeaderTitle').innerHTML = flightData.callsign; // Aircraft Callsign
 
-    // Modal info Days Of Week
-    //document.getElementById('modalDayofWeek').innerHTML = flightData.weekdays;
+    document.getElementById('modalHeaderDeparture').innerHTML = flightData.departureIcao; // Dept ICAO
+    document.getElementById('modalHeaderArrival').innerHTML = flightData.arrivalIcao; // Arrival ICAO
+
+    document.getElementById('modalFlightRule').innerHTML = flightData.flightRules;
+
+    document.getElementById('modalFlightSpeed').innerHTML = flightData.cruisingSpeed; 
+
+    document.getElementById('modalFlightLevel').innerHTML = flightData.cruisingLevel;
+
+    document.getElementById('modalFlightEnrouteTime').innerHTML = flightData.estimatedEnrouteMinutes;
+
+    document.getElementById('modalFlightEOBT').innerHTML = flightData.estimatedOffBlockTime + " z";
+
     
-    // Modal info Remarks
-    document.getElementById('modalRemarks').innerHTML = flightData.remarks;
+    
+    
+    // document.getElementById('modalSchedule').innerHTML = flightData.weekdays; // Modal info Days Of Week
+    
+    
+    document.getElementById('modalRemarks').innerHTML = flightData.remarks; // Modal info Remarks
 };
 
 
