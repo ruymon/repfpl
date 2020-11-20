@@ -1,3 +1,7 @@
 #outputPanel {
     display: none;
 }
+
+.airplaneIcon {
+    fill: white;
+}
