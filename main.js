@@ -7,6 +7,9 @@ function pageLoad () {
 
 let pages;
 let currentPage = 0;
+let amountOfItems = 0;
+
+let amountOfPagesCalc = 0;
 
 let data;
 
@@ -42,6 +45,8 @@ async function handleButton() {
 
     const outputData = await getFlights({departureIcao:deptIcao, arrivalIcao:arrIcao, company:ciaIcao, offset:currentPage});
     
+    amountOfItems = outputData.count;
+
     showData(outputData);
 }
 
@@ -146,11 +151,31 @@ function moreInfo (id) {
 
     document.getElementById('modalFlightEOBT').innerHTML = flightData.estimatedOffBlockTime + " z";
 
+    console.log(flightData.weekdays);
 
+    $('#scheduleTable').html("");
 
-    
-    
-    
+    flightData.weekdays.forEach((item) => {
+        const weekdays = `
+        <tr>
+        <td scope="row">
+          <span>
+            <samp>
+              ${item}
+            </samp>
+          </span>
+        </td>
+      </tr>
+        `;
+
+        // document.getElementById('scheduleTable').appendChild(weekdays);
+        
+        $('#scheduleTable').append(weekdays);
+        
+        console.log(weekdays);
+        
+    }) 
+
     // document.getElementById('modalSchedule').innerHTML = flightData.weekdays; // Modal info Days Of Week
 
     document.getElementById('modalRoute').innerHTML = flightData.route;
@@ -159,7 +184,36 @@ function moreInfo (id) {
 };
 
 
+
+
+
+
+
 // Pagination Functions
+
+
+
+
+// function nextPage () {
+
+//     console.log(amountOfItems);
+
+//     amountOfPagesCalc = (amountOfItems / 15);
+
+//     if(amountOfPagesCalc < 1){
+//         currentPage += 14
+//     } else {
+//         currentPage += (amountOfItems % 15);
+//     }
+
+//     amountOfItems - 15;
+
+//     handleButton();
+// };
+
+
+// OLD PAGINATION
+
 
 function nextPage () {
     if(currentPage === pages) return;
